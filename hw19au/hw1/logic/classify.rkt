@@ -10,10 +10,13 @@
 ; * 'CONTINGENCY if there are two interpretations I and I′ such that I satisfies F and I' does not.
 (define (classify F)
   (cond
+    ; If nothing causes F to fail, its a Tautology
+    [(unsat? (verify (assert F)))
+     'TAUTOLOGY]
+    ; If nothing causes F to pass, its a Contradiction
     [(unsat? (solve (assert F)))
      'CONTRADICTION]
-    [(unsat? (solve (assert (! F))))
-     'TAUTOLOGY]
+    ; Else it must be a contingency
     [else
      'CONTINGENCY]))
 
